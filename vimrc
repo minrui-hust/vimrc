@@ -16,6 +16,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'c.vim'
 
 Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 Plugin 'scrooloose/nerdtree'
 
@@ -149,6 +150,15 @@ let clang_format_style='file'
 " ==============================================================
 nnoremap <c-f> :Leaderf function<cr>
 nnoremap <c-p> :Leaderf file<cr>
+" ==============================================================
+
+
+" ==============================================================
+" Setting for airline
+" ==============================================================
+let g:airline_theme = "bubblegum"
+let g:airline_left_sep = '►'
+let g:airline_right_sep = '◄'
 " ==============================================================
 
 
