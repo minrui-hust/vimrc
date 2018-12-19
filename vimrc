@@ -13,19 +13,16 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" https://github.com/vim-scripts/c.vim.git
 Plugin 'c.vim'
 
 Plugin 'bling/vim-airline'
 
-" https://github.com/scrooloose/nerdtree
 Plugin 'scrooloose/nerdtree'
 
 Plugin 'Yggdroot/LeaderF'
 
 Plugin 'majutsushi/tagbar'
 
-" https://github.com/Valloric/YouCompleteMe
 Plugin 'minrui-roadstar/YouCompleteMe'
 
 Plugin 'google/vim-maktaba'
@@ -46,22 +43,23 @@ filetype plugin indent on    " required
 "filetype plugin on
 " ==============================================================
 
+
 " ==============================================================
 " global settings
 " ==============================================================
-let maplocalleader = ";"
-
+" encoding
 set encoding=utf-8
 set fileencodings=utf-8,gbk,gb18030,gk2312
-set ambiwidth=single
+set ambiwidth=double
 
-colorscheme molokai
-
-
+" font
 set guifont=Ubuntu\ Mono\ 15
 
+" color scheme
+colorscheme molokai
+
+" syntax enable
 syntax enable
-syntax on
 
 " auto indent
 set ts=2
@@ -71,25 +69,31 @@ set softtabstop=2
 set autoindent
 set cindent
 
-set nu
+set number
 
+" corss cursor
 set cursorline
 set cursorcolumn
 
+" highlight search
 set hlsearch
 set incsearch
 
+" no wrap
 set nowrap
 
 " hide menu bar
 set guioptions-=T
+
+" local leader to be ';'
+let maplocalleader = ";"
 " ==============================================================
 
 
 " ==============================================================
 " Setting for nerdtree
 " ==============================================================
-" map F2 to shortcut of nerdtree
+" map space to open and toggle nerdtree
 nnoremap <SPACE> :NERDTreeToggle<CR>
 nnoremap <localleader><SPACE> :NERDTreeFind<CR>
 
@@ -213,6 +217,7 @@ map <silent> <F10> :call Maximize_Window()<CR>
 " =======================================================
 " self defined functions
 " =======================================================
+" function that call make and cmake in build directory
 function! MakeProject(cmd)
     let cur_file = expand('%:p')
     let dentries = split(cur_file, '/')[0:-2]
@@ -244,9 +249,9 @@ function! MakeProject(cmd)
     else
         echo "Unknow MakeProject Command"
     endif
-
 endfunction
 
+" function toggle fullscreen
 let g:fullscreen = 0
 function! ToggleFullscreen()
   if g:fullscreen == 1
@@ -259,6 +264,7 @@ function! ToggleFullscreen()
   call system("wmctrl -ir " . v:windowid . " -b " . mod . ",fullscreen")
 endfunction
 
+" function maximum vim window
 function! Maximize_Window()
   silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
 endfunction
