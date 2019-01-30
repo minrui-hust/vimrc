@@ -25,6 +25,7 @@ Plugin 'Yggdroot/LeaderF'
 Plugin 'majutsushi/tagbar'
 
 Plugin 'minrui-roadstar/YouCompleteMe'
+"Plugin 'minrui-roadstar/color_coded'
 
 Plugin 'google/vim-maktaba'
 Plugin 'google/vim-codefmt'
@@ -221,6 +222,10 @@ nnoremap U J
 " <F11> to toggle full screen
 map <silent> <F11> :call ToggleFullscreen()<CR>
 map <silent> <F10> :call Maximize_Window()<CR>
+" =======================================================
+
+" ================ extra file type ======================
+autocmd BufEnter *.launch set filetype=xml
 " =======================================================
 
 
