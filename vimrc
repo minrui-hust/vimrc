@@ -24,8 +24,7 @@ Plugin 'Yggdroot/LeaderF'
 
 Plugin 'majutsushi/tagbar'
 
-Plugin 'minrui-roadstar/YouCompleteMe'
-"Plugin 'minrui-roadstar/color_coded'
+"Plugin 'minrui-hust/YouCompleteMe'
 
 Plugin 'google/vim-maktaba'
 Plugin 'google/vim-codefmt'
