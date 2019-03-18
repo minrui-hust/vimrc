@@ -24,7 +24,7 @@ Plugin 'Yggdroot/LeaderF'
 
 Plugin 'majutsushi/tagbar'
 
-"Plugin 'minrui-hust/YouCompleteMe'
+Plugin 'minrui-hust/YouCompleteMe'
 
 Plugin 'google/vim-maktaba'
 Plugin 'google/vim-codefmt'
@@ -239,10 +239,12 @@ function! MakeProject(cmd)
 
     let vim_file = ""
     let cur_path = "/".join(dentries, "/")
+    let project_setting_dir = ""
     while cur_path != home_path
         let vim_file = globpath(cur_path."/.project.settings", "project.vim")
         if(vim_file != "")
             exec "source ".vim_file
+            let project_setting_dir = cur_path."/.project.settings"
             break
         endif
 
@@ -256,7 +258,7 @@ function! MakeProject(cmd)
     endif
 
     if a:cmd == "cmake"
-        exec "!cd ".g:build_dir." && ".g:cmake_cmd." && ../.project.settings/gen_ycm_conf.pl compile_commands.json ../.project.settings/ycm_extra_conf.py"
+        exec "!cd ".g:build_dir." && ".g:cmake_cmd." && ".project_setting_dir."/gen_ycm_conf.pl ".g:compile_command_dir."/compile_commands.json ".project_setting_dir."/ycm_extra_conf.py"
         exec "YcmCompleter ClearCompilationFlagCache"
     elseif a:cmd == "make"
         exec "!cd ".g:build_dir." && ".g:make_cmd
