@@ -1,48 +1,33 @@
-" ==============================================================
-" https://github.com/VundleVim/Vundle.vim 
-" ==============================================================
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" check if plug.vim exist, if not, download one
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call plug#begin('~/.vim/bundle')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-Plugin 'c.vim'
-
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-
-Plugin 'scrooloose/nerdtree'
-
-Plugin 'Yggdroot/LeaderF'
-
-Plugin 'majutsushi/tagbar'
-
-Plugin 'minrui-hust/YouCompleteMe'
-
-Plugin 'google/vim-maktaba'
-Plugin 'google/vim-codefmt'
-
-Plugin 'DoxygenToolkit.vim'
-
+Plug 'vim-scripts/c.vim'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'scrooloose/nerdtree'
+Plug 'Valloric/YouCompleteMe'
+Plug '/home/mr/.vim/bundle/color-cpp'
+Plug 'Yggdroot/LeaderF'
+Plug 'dyng/ctrlsf.vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'majutsushi/tagbar'
+Plug 'google/vim-maktaba'
+Plug 'google/vim-codefmt'
+Plug 'vim-scripts/DoxygenToolkit.vim'
+Plug 'iamcco/markdown-preview.vim'
+Plug 'skywind3000/asyncrun.vim'
 " color scheme
-Plugin 'Solarized'
-Plugin 'molokai'
-Plugin 'monokai'
+Plug 'vim-scripts/Solarized'
+Plug 'vim-scripts/molokai'
+Plug 'vim-scripts/monokai'
 
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-" ==============================================================
+call plug#end()
 
 
 " ==============================================================
@@ -70,6 +55,9 @@ set softtabstop=2
 set autoindent
 set cindent
 
+" set backspace work
+set backspace=indent,eol,start
+
 set number
 
 " corss cursor
@@ -88,6 +76,10 @@ set guioptions-=T
 
 " local leader to be ';'
 let maplocalleader = ";"
+
+let s:user_name = "Rui Min"
+let s:user_email= "rui.min@allride.ai"
+let s:user_company = "Allride.ai"
 " ==============================================================
 
 
@@ -123,10 +115,39 @@ let g:C_Ctrl_j = 'off'
 
 
 " ==============================================================
+" Setting for markdown-preview
+" ==============================================================
+nnoremap <F7> :MarkdownPreview<CR>
+nnoremap <F8> :MarkdownPreviewStop<CR>
+" ==============================================================
+
+
+" ==============================================================
+" Setting for enhanced highlight
+" ==============================================================
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+" ==============================================================
+
+
+
+" ==============================================================
+" Setting for DoxygenToolkit.vim
+" ==============================================================
+let g:DoxygenToolkit_commentType = "C++"
+nnoremap <localleader>cm :Dox<CR>
+" ==============================================================
+
+
+" ==============================================================
 " Setting for you complete me
 " ==============================================================
 nnoremap <localleader>j :YcmCompleter GoTo<CR>
 nnoremap <localleader>; <c-o>
+nnoremap <localleader>fx :YcmCompleter FixIt<CR>
+command  Diag YcmDiags
 
 let  g:ycm_confirm_extra_conf=0
 let  g:ycm_enable_diagnostic_signs=0
@@ -148,28 +169,40 @@ let clang_format_style='file'
 " ==============================================================
 " Setting for leaderf
 " ==============================================================
-nnoremap <c-f> :Leaderf function<cr>
+nnoremap ' :Leaderf function<cr>
 nnoremap <c-p> :Leaderf file<cr>
 " ==============================================================
 
+" ==============================================================
+" Setting for CtrlSF
+" ==============================================================
+" ctrl-f to search global
+function! DoCtrlSF()
+  let l:pattern = input("<pattern>:", "\\b".expand('<cword>')."\\b")
+  exec ":CtrlSF ".l:pattern
+endfunction
+nnoremap <c-f> :call DoCtrlSF()<cr>
+" default use regex search
+let g:ctrlsf_regex_pattern = 1
+" ==============================================================
 
 " ==============================================================
 " Setting for airline
 " ==============================================================
 let g:airline_theme = "bubblegum"
-let g:airline_left_sep = '►'
-let g:airline_right_sep = '◄'
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
 " ==============================================================
 
 
 " ==============================================================
 " Setting for tagbar
 " ==============================================================
-nnoremap ' :TagbarToggle<cr>
+nnoremap <localleader>' :TagbarToggle<cr>
 let g:tagbar_width = 32
-let g:tagbar_iconchars = ['+', '-']
+"let g:tagbar_iconchars = ['+', '-']
 let g:tagbar_autofocus = 1
-let g:tagbar_autoclose = 1
+"let g:tagbar_autoclose = 1
 " ==============================================================
 
 
@@ -216,7 +249,12 @@ nnoremap ? *
 nnoremap . :bn<cr>
 nnoremap , :bp<cr>
 
+" move next line up
 nnoremap U J
+
+" alt-j to page down, alt-k to page up
+nnoremap <m-j> <c-d>
+nnoremap <m-k> <c-u>
 
 " <F11> to toggle full screen
 map <silent> <F11> :call ToggleFullscreen()<CR>
@@ -266,6 +304,15 @@ function! MakeProject(cmd)
         echo "Unknow MakeProject Command"
     endif
 endfunction
+
+function! AddFileHeader()
+  let l:date = strftime("%Y")
+  exec "normal gg"
+  exec "normal O"."// Copyright ".l:date." ".s:user_company."."." All Rights Reserved."
+  exec "normal o"."Author: ".s:user_name." (".s:user_email.")."
+  exec "normal :update\n"
+endfunction
+command Header call AddFileHeader()
 
 " function toggle fullscreen
 let g:fullscreen = 0
