@@ -103,6 +103,9 @@ let NERDTreeShowLineNumbers=0
 
 " show hidden files at start
 let NERDTreeShowHidden=0
+
+" change the vim pwd with nerdtree
+let NERDTreeChDirMode=2
 " ==============================================================
 
 
@@ -269,42 +272,8 @@ autocmd BufEnter *.launch set filetype=xml
 " =======================================================
 " self defined functions
 " =======================================================
-" function that call make and cmake in build directory
-function! MakeProject(cmd)
-    let cur_file = expand('%:p')
-    let dentries = split(cur_file, '/')[0:-2]
-    let home_path = $HOME
 
-    let vim_file = ""
-    let cur_path = "/".join(dentries, "/")
-    let project_setting_dir = ""
-    while cur_path != home_path
-        let vim_file = globpath(cur_path."/.project.settings", "project.vim")
-        if(vim_file != "")
-            exec "source ".vim_file
-            let project_setting_dir = cur_path."/.project.settings"
-            break
-        endif
-
-        let dentries = dentries[0:-2]
-        let cur_path = "/".join(dentries, "/")
-    endwhile
-
-    if vim_file == ""
-        echo "Could not find .project.settings/project.vim"
-        return
-    endif
-
-    if a:cmd == "cmake"
-        exec "!cd ".g:build_dir." && ".g:cmake_cmd." && ".project_setting_dir."/gen_ycm_conf.pl ".g:compile_command_dir."/compile_commands.json ".project_setting_dir."/ycm_extra_conf.py"
-        exec "YcmCompleter ClearCompilationFlagCache"
-    elseif a:cmd == "make"
-        exec "!cd ".g:build_dir." && ".g:make_cmd
-    else
-        echo "Unknow MakeProject Command"
-    endif
-endfunction
-
+" add file header contain author and company information
 function! AddFileHeader()
   let l:date = strftime("%Y")
   exec "normal gg"
@@ -314,21 +283,4 @@ function! AddFileHeader()
 endfunction
 command Header call AddFileHeader()
 
-" function toggle fullscreen
-let g:fullscreen = 0
-function! ToggleFullscreen()
-  if g:fullscreen == 1
-    let g:fullscreen = 0
-    let mod = "remove"
-  else
-    let g:fullscreen = 1
-    let mod = "add"
-  endif
-  call system("wmctrl -ir " . v:windowid . " -b " . mod . ",fullscreen")
-endfunction
-
-" function maximum vim window
-function! Maximize_Window()
-  silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
-endfunction
 " =======================================================
