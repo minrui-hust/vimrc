@@ -216,9 +216,6 @@ let g:tagbar_autofocus = 1
 nnoremap <localleader>ev :vs $MYVIMRC<cr>
 nnoremap <localleader>sv :source $MYVIMRC<cr>
 
-nnoremap <F5> :call MakeProject("cmake")<CR>
-nnoremap <F6> :call MakeProject("make")<CR>
-
 " switch between windows
 nnoremap H <c-w>h
 nnoremap L <c-w>l
