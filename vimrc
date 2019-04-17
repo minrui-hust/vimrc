@@ -87,8 +87,8 @@ let s:user_company = "Allride.ai"
 " Setting for nerdtree
 " ==============================================================
 " map space to open and toggle nerdtree
-nnoremap <SPACE> :NERDTreeToggle<CR>
-nnoremap <localleader><SPACE> :NERDTreeFind<CR>
+nnoremap <SPACE> :NERDTreeFind<CR>
+nnoremap <c-b> :NERDTreeToggle<CR>
 
 " set tree node display cursor to '+' and '-'
 let NERDTreeDirArrowExpandable = '+'
