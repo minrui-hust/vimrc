@@ -20,8 +20,10 @@ Plug 'majutsushi/tagbar'
 Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
 Plug 'vim-scripts/DoxygenToolkit.vim'
-Plug 'iamcco/markdown-preview.vim'
+"Plug 'iamcco/mathjax-support-for-mkdp'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'tpope/vim-surround'
+Plug 'vim-scripts/Conque-GDB'
 " color scheme
 Plug 'vim-scripts/Solarized'
 Plug 'vim-scripts/molokai'
@@ -255,6 +257,20 @@ nnoremap U J
 " alt-j to page down, alt-k to page up
 nnoremap <m-j> <c-d>
 nnoremap <m-k> <c-u>
+
+" terminal map
+if has('terminal')
+  " esc to enter terminal normal mode
+  tnoremap <Esc> <C-W>N
+  " F1 to open current window as terminal
+  noremap <F1> :bel terminal<CR>
+  " <cr> to enter termimal working mode
+  au TerminalOpen * if &buftype == 'terminal' | nnoremap <buffer> <CR> i | endif
+  " close terminal
+  au TerminalOpen * if &buftype == 'terminal' | nnoremap <buffer> <localleader>x :q!<CR> | endif
+  " background color
+  hi Terminal ctermbg=lightgrey ctermfg=blue guibg=#45172a guifg=white
+endif
 
 " <F11> to toggle full screen
 map <silent> <F11> :call ToggleFullscreen()<CR>
