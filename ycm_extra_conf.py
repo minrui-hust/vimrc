@@ -49,9 +49,9 @@ def flagsFromDatabase(database_file_path):
                 if match_inc:
                     flags.add(match_inc.group())
                 elif match_sys_inc:
-                    tmp_flag = seg
+                    tmp_flag = '-I' # convert -isystem to -I, it seems clang can not process this correctly when compiling headers
                 elif not tmp_flag == "":
-                    flag = tmp_flag+" "+seg
+                    flag = tmp_flag+seg
                     flags.add(flag)
                     tmp_flag = ""
                 elif match_define:
