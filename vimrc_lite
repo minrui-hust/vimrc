@@ -1,0 +1,220 @@
+" check if plug.vim exist, if not, download one
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/bundle')
+
+Plug 'vim-scripts/c.vim'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'scrooloose/nerdtree'
+Plug 'Valloric/YouCompleteMe'
+Plug 'majutsushi/tagbar'
+Plug 'google/vim-maktaba'
+Plug 'google/vim-codefmt'
+
+" color scheme
+Plug 'vim-scripts/Solarized'
+Plug 'vim-scripts/molokai'
+Plug 'vim-scripts/monokai'
+
+call plug#end()
+
+
+" ==============================================================
+" global settings
+" ==============================================================
+" encoding
+set encoding=utf-8
+set fileencodings=utf-8,gbk,gb18030,gk2312
+set ambiwidth=double
+
+" font
+set guifont=Ubuntu\ Mono\ 15
+
+" color scheme
+colorscheme molokai
+
+" syntax enable
+syntax enable
+
+" auto indent
+set ts=2
+set expandtab
+set shiftwidth=2
+set softtabstop=2
+set autoindent
+set cindent
+
+" set backspace work
+set backspace=indent,eol,start
+
+set number
+
+" corss cursor
+set cursorline
+set cursorcolumn
+
+" highlight search
+set hlsearch
+set incsearch
+
+" no wrap
+set nowrap
+
+" hide menu bar
+set guioptions-=T
+
+" local leader to be ';'
+let maplocalleader = ";"
+" ==============================================================
+
+
+" ==============================================================
+" Setting for nerdtree
+" ==============================================================
+" map space to open and toggle nerdtree
+nnoremap <SPACE> :NERDTreeFind<CR>
+nnoremap <c-b> :NERDTreeToggle<CR>
+
+" set tree node display cursor to '+' and '-'
+let NERDTreeDirArrowExpandable = '+'
+let NERDTreeDirArrowCollapsible = '-'
+
+" set the nerdtree window position and size
+let NERDTreeWinPos='left'
+let NERDTreeSize=30
+
+" show line number
+let NERDTreeShowLineNumbers=0
+
+" show hidden files at start
+let NERDTreeShowHidden=0
+
+" change the vim pwd with nerdtree
+let NERDTreeChDirMode=2
+" ==============================================================
+
+
+" ==============================================================
+" Setting for c.vim
+" ==============================================================
+" disable ctrl-j jump, cause ctrl-j is used for shrink window height
+let g:C_Ctrl_j = 'off'
+" ==============================================================
+
+
+" ==============================================================
+" Setting for you complete me
+" ==============================================================
+nnoremap <localleader>j :YcmCompleter GoTo<CR>
+nnoremap <localleader>; <c-o>
+nnoremap <localleader>fx :YcmCompleter FixIt<CR>
+command  Diag YcmDiags
+
+let  g:ycm_confirm_extra_conf=0
+let  g:ycm_enable_diagnostic_signs=0
+let  g:ycm_max_num_candidates=15
+set  completeopt="menu"
+"let  g:ycm_autoclose_preview_window_after_insertion=1
+"let  g:ycm_log_level="debug"
+" ==============================================================
+
+
+" ==============================================================
+" Setting for codefmt
+" ==============================================================
+nnoremap <localleader>= :FormatCode<cr>
+let clang_format_style='file'
+" ==============================================================
+
+
+" ==============================================================
+" Setting for airline
+" ==============================================================
+let g:airline_theme = "bubblegum"
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+" ==============================================================
+
+
+" ==============================================================
+" Setting for tagbar
+" ==============================================================
+nnoremap <localleader>' :TagbarToggle<cr>
+let g:tagbar_width = 32
+"let g:tagbar_iconchars = ['+', '-']
+let g:tagbar_autofocus = 1
+"let g:tagbar_autoclose = 1
+" ==============================================================
+
+
+" =======================================================
+" key map
+" =======================================================
+" for edit .vimrc
+nnoremap <localleader>ev :vs $MYVIMRC<cr>
+nnoremap <localleader>sv :source $MYVIMRC<cr>
+
+" switch between windows
+nnoremap H <c-w>h
+nnoremap L <c-w>l
+nnoremap J <c-w>j
+nnoremap K <c-w>k
+
+" resize window
+nnoremap <c-h> :vertical resize -5<cr>
+nnoremap <c-l> :vertical resize +5<cr>
+nnoremap <c-j> :resize -5<cr>
+nnoremap <c-k> :resize +5<cr>
+nnoremap W <c-w>=
+
+" fast close window
+nnoremap <localleader>x :q<cr>
+
+" fast split window
+nnoremap <localleader>v :vs<cr>
+nnoremap <localleader>n :sp<cr>
+
+" chomp last ;
+nnoremap d; $x
+
+" system clipboard
+nnoremap Y "+y
+nnoremap P "+p
+
+nnoremap ? *
+
+" switch buffer
+nnoremap . :bn<cr>
+nnoremap , :bp<cr>
+
+" move next line up
+nnoremap U J
+
+" alt-j to page down, alt-k to page up
+nnoremap <m-j> <c-d>
+nnoremap <m-k> <c-u>
+
+" terminal map
+if has('terminal')
+  " esc to enter terminal normal mode
+  tnoremap <Esc> <C-W>N
+  " F1 to open current window as terminal
+  noremap <F1> :bel terminal<CR>
+  " <cr> to enter termimal working mode
+  au TerminalOpen * if &buftype == 'terminal' | nnoremap <buffer> <CR> i | endif
+  " close terminal
+  au TerminalOpen * if &buftype == 'terminal' | nnoremap <buffer> <localleader>x :q!<CR> | endif
+  " background color
+  hi Terminal ctermbg=lightgrey ctermfg=blue guibg=#45172a guifg=white
+endif
+" =======================================================
+
+" ================ extra file type ======================
+autocmd BufEnter *.launch set filetype=xml
+" =======================================================
+
