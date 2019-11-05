@@ -7,12 +7,14 @@ endif
 
 call plug#begin('~/.vim/bundle')
 
-Plug 'vim-scripts/c.vim'
+"Plug 'vim-scripts/c.vim'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
+"Plug 'zxqfl/tabnine-vim'
 Plug 'Valloric/YouCompleteMe'
 Plug 'minrui-hust/color-cpp.vim'
+"Plug 'tenfyzhong/CompleteParameter.vim'
 Plug 'Yggdroot/LeaderF'
 Plug 'dyng/ctrlsf.vim'
 Plug 'terryma/vim-multiple-cursors'
@@ -20,10 +22,10 @@ Plug 'majutsushi/tagbar'
 Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
 Plug 'vim-scripts/DoxygenToolkit.vim'
-"Plug 'iamcco/mathjax-support-for-mkdp'
+"Plug 'jiangmiao/auto-pairs'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'tpope/vim-surround'
-Plug 'vim-scripts/Conque-GDB'
+
 " color scheme
 Plug 'vim-scripts/Solarized'
 Plug 'vim-scripts/molokai'
@@ -89,8 +91,8 @@ let s:user_company = "Allride.ai"
 " Setting for nerdtree
 " ==============================================================
 " map space to open and toggle nerdtree
-nnoremap <SPACE> :NERDTreeFind<CR>
-nnoremap <c-b> :NERDTreeToggle<CR>
+nnoremap <space> :NERDTreeFind<cr>
+nnoremap <c-b> :NERDTreeToggle<cr>
 
 " set tree node display cursor to '+' and '-'
 let NERDTreeDirArrowExpandable = '+'
@@ -120,10 +122,9 @@ let g:C_Ctrl_j = 'off'
 
 
 " ==============================================================
-" Setting for markdown-preview
+" Setting for markdown-preview.nvim
 " ==============================================================
-nnoremap <F7> :MarkdownPreview<CR>
-nnoremap <F8> :MarkdownPreviewStop<CR>
+let g:mkdp_auto_close = 0
 " ==============================================================
 
 
@@ -157,9 +158,13 @@ command  Diag YcmDiags
 let  g:ycm_confirm_extra_conf=0
 let  g:ycm_enable_diagnostic_signs=0
 let  g:ycm_max_num_candidates=15
-set  completeopt="menu"
+"set  completeopt="menu"
+let  g:ycm_add_preview_to_completeopt = 1
 "let  g:ycm_autoclose_preview_window_after_insertion=1
 "let  g:ycm_log_level="debug"
+
+" for complete_parameters
+"inoremap <silent><expr> ( complete_parameter#pre_complete("()")
 " ==============================================================
 
 
@@ -203,7 +208,7 @@ let g:airline_right_sep = ''
 " ==============================================================
 " Setting for tagbar
 " ==============================================================
-nnoremap <localleader>' :TagbarToggle<cr>
+nnoremap <c-t> :TagbarToggle<cr>
 let g:tagbar_width = 32
 "let g:tagbar_iconchars = ['+', '-']
 let g:tagbar_autofocus = 1
@@ -247,10 +252,6 @@ nnoremap P "+p
 
 nnoremap ? *
 
-" switch buffer
-nnoremap . :bn<cr>
-nnoremap , :bp<cr>
-
 " move next line up
 nnoremap U J
 
@@ -261,15 +262,23 @@ nnoremap <m-k> <c-u>
 " terminal map
 if has('terminal')
   " esc to enter terminal normal mode
-  tnoremap <Esc> <C-W>N
+  tnoremap <localleader><esc> <C-W>N
   " F1 to open current window as terminal
   noremap <F1> :bel terminal<CR>
   " <cr> to enter termimal working mode
   au TerminalOpen * if &buftype == 'terminal' | nnoremap <buffer> <CR> i | endif
   " close terminal
   au TerminalOpen * if &buftype == 'terminal' | nnoremap <buffer> <localleader>x :q!<CR> | endif
+  " terminal no numbers 
+  au TerminalOpen * if &buftype == 'terminal' | :setlocal nonumber | endif
+  " terminal no vertical cursor
+  au TerminalOpen * if &buftype == 'terminal' | :setlocal nocursorcolumn | endif
   " background color
-  hi Terminal ctermbg=lightgrey ctermfg=blue guibg=#45172a guifg=white
+  hi Terminal ctermbg=lightgrey ctermfg=lightblue guibg=#32122B guifg=white
+
+  let g:terminal_ansi_colors = ['#101010', '#AA0000', '#00AA00', '#AAAA00', '#6699FF', '#AA00AA', '#00AAAA', '#AAAAAA', '#555555', '#FF5555', '#55FF55', '#FFFF55', '#5555FF', '#FF55FF', '#55FFFF', '#FFFFFF']
+
+  tmap <silent> <ScrollWheelUp> <c-w>N
 endif
 
 " <F11> to toggle full screen
@@ -279,8 +288,8 @@ map <silent> <F10> :call Maximize_Window()<CR>
 
 " ================ extra file type ======================
 autocmd BufEnter *.launch set filetype=xml
+autocmd BufEnter *.urdf set filetype=xml
 " =======================================================
-
 
 " =======================================================
 " self defined functions
