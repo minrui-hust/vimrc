@@ -4,7 +4,7 @@ import ycm_core
 
 
 # set this to the directory which compile_commands.json exist
-compilation_database_folder = '/home/mr/Workspace/repo/opencv/build'
+compilation_database_folder = '/home/uu/work/allride/loc/build'
 # set this to the directory which compile_commands.json exist
 
 
@@ -80,15 +80,8 @@ def Settings( **kwargs ):
     if database:
       compilation_info = database.GetCompilationInfoForFile( filename )
       if compilation_info.compiler_flags_:
-        # del the '-include' flags, cause clang can not process it correctly
-        compiler_flags_original = list(compilation_info.compiler_flags_)
-        compiler_flags = []
-        for i in range(len(compiler_flags_original)):
-          if compiler_flags_original[i] != '-include' and compiler_flags_original[max(i-1,0)] != '-include':
-            compiler_flags.append(compiler_flags_original[i])
-
         return {
-                'flags': compiler_flags + extra_flag,
+                'flags': list(compilation_info.compiler_flags_) + extra_flag,
                 'include_paths_relative_to_dir': compilation_info.compiler_working_dir_,
                 'override_filename': filename
                 }

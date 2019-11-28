@@ -12,9 +12,12 @@ Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'Valloric/YouCompleteMe'
-Plug 'majutsushi/tagbar'
+Plug 'minrui-hust/color-cpp.vim'
+Plug 'jiangmiao/auto-pairs'
+"Plug 'majutsushi/tagbar'
 Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
+Plug 'dyng/ctrlsf.vim'
 
 " color scheme
 Plug 'vim-scripts/Solarized'
@@ -27,13 +30,24 @@ call plug#end()
 " ==============================================================
 " global settings
 " ==============================================================
+"设置跳出自动补全的括号
+func SkipPair()  
+    if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getline('.')[col('.') - 1] == '}'  
+        return "\<ESC>la"  
+    else  
+        return "\t"  
+    endif  
+endfunc  
+" 将tab键绑定为跳出括号  
+inoremap <TAB> <c-r>=SkipPair()<CR>
+
 " encoding
 set encoding=utf-8
 set fileencodings=utf-8,gbk,gb18030,gk2312
 set ambiwidth=double
 
 " font
-set guifont=Ubuntu\ Mono\ 15
+set guifont=Ubuntu\ Mono\ 12
 
 " color scheme
 colorscheme molokai
@@ -70,6 +84,7 @@ set guioptions-=T
 
 " local leader to be ';'
 let maplocalleader = ";"
+
 " ==============================================================
 
 
@@ -104,6 +119,20 @@ let NERDTreeChDirMode=2
 " ==============================================================
 " disable ctrl-j jump, cause ctrl-j is used for shrink window height
 let g:C_Ctrl_j = 'off'
+" ==============================================================
+
+
+" ==============================================================
+" Setting for CtrlSF
+" ==============================================================
+" ctrl-f to search global
+function! DoCtrlSF()
+  let l:pattern = input("<pattern>:", "\\b".expand('<cword>')."\\b")
+  exec ":CtrlSF ".l:pattern
+endfunction
+nnoremap <c-f> :call DoCtrlSF()<cr>
+" default use regex search
+let g:ctrlsf_regex_pattern = 1
 " ==============================================================
 
 
@@ -189,7 +218,7 @@ nnoremap P "+p
 nnoremap ? *
 
 " switch buffer
-nnoremap . :bn<cr>
+"nnoremap . :bn<cr>
 nnoremap , :bp<cr>
 
 " move next line up
