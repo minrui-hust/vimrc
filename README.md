@@ -10,7 +10,7 @@ bash scripts/second_step.bash #(install YCM and color_cpp)
 
 ## Work prepare
 ```bash
-cd .../vim_config
+cd ...../vimrc
 cp ycm_extra_conf.py ${YOUR_PROJECT_FOLDER}/.ycm_extra_config.py 
 #(ex: cp ycm_extra_conf.py ~/work/allride/loc/.ycm_extra_config.py)
 cd ${YOUR_PROJECT_FOLDER}/build
