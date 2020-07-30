@@ -4,7 +4,9 @@ import ycm_core
 
 
 # set this to the directory which compile_commands.json exist
-compilation_database_folder = '/home/uu/work/allride/loc/build'
+#compilation_database_folder = '/home/uu/work/allride/loc/build'
+compilation_base = os.path.split(os.path.realpath(__file__))[0]
+compilation_database_folder = os.path.join(compilation_base, 'build')
 # set this to the directory which compile_commands.json exist
 
 
